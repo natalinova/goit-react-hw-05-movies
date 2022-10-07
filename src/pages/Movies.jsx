@@ -1,7 +1,10 @@
 import React from 'react'
+// import { Link } from 'react-router-dom'
 
-export const  Movies = () => {
+export const Movies = () => {
   return (
-    <div>Movies</div>
+    <div>
+      Content Movies
+    </div>
   )
 }
