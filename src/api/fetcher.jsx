@@ -1,32 +1,31 @@
 import axios from 'axios';
 
-const Search = async (query) => {
+export const SearchCasts = async (id) => {
   
-    const result = await axios.get(`https://api.themoviedb.org/3/movie/${query}?api_key=575a9af20b08903ff7761ed5bfc17287`)
+    const result = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=575a9af20b08903ff7761ed5bfc17287`)
   
-  console.log(query)
-  console.log(result)
+//   console.log(query)
+//   console.log(result)
     if (result.length === 0) {
-        return Promise.reject(new Error(` Not any movies with key word ${query}`))
+        return Promise.reject(new Error(` Not any movies with key word ${id}`))
     }
     
         return result
 }
 
- const fetchImage = async (query) => {
+// export const fetchCasts = async (id) => { 
+//         try {   
+//           const searchResult = await SearchCasts(page);
+//         const data = searchResult.data.results
+//         setCasts([...casts, ...data])
+          
        
-        try {   
-         
-            const searchResult = await Search(query);
-           
-          
-          return Promise.resolve(searchResult.data.results)
-          
-        }
-
-        catch (error){
+//         }
+//         catch (error){
         
-          // setError(`Not any images with key word ${query}` )          
-  }
- }
-export default fetchImage
+            
+//   }
+//   }
+
+ 
+// export default fetchImage
