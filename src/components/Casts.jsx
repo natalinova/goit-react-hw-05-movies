@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SearchCasts } from 'api/Fetcher';
+import { SearchCasts } from '../api/Fetcher';
 const imageUrl = 'https://image.tmdb.org/t/p/w500'
 
 export default function Casts({ id }) {
