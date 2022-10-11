@@ -1,47 +1,43 @@
 import React, { useEffect, useState } from 'react'
-import { SearchCasts } from 'api/FetchConst';
+import { Search } from 'api/FetchConst';
+import { useParams } from 'react-router-dom';
+// import ErrorImage from "../api/error.jpg"
+import FakeFace from "../api/fake_face.jpeg"
+import {Item, ItemText, ListCasts} from "../MoviesStyled"
+
 const imageUrl = 'https://image.tmdb.org/t/p/w500'
 
-export default function Casts({ id }) {
-   
-    const [casts, setCasts] = useState([]);
-    const fetchCasts = async (id) => { 
-        try {   
-            const searchResult = await SearchCasts(id);
-            console.log(searchResult)
-            const data = searchResult.data.cast
-            console.log(data)
-        setCasts(data)
-          console.log(casts)
-          // return Promise.resolve(searchResult.data.results)      
-        }
-        catch (error){
-        
-          // setError(`Not any images with key word ${query}` )          
-  }
-  }
-
+export default function Casts() {
+    const {moviesId} = useParams();
     
+    console.log(moviesId)
+    const [casts, setCasts] = useState([]);
+    const fetchCasts = async (id, typeSearch) => { 
+        try {   
+            const searchResult = await Search(id, typeSearch);
+            const data = searchResult.data.cast
+            setCasts(data)  
+        }
+        catch (error){         
+        }
+    }
     useEffect(() => {
-        fetchCasts(id)
+        fetchCasts(moviesId, "/credits")
         // eslint-disable-next-line
-    }, [id])
+    }, [moviesId])
 
     const markupCasts = casts.map(({ id, name, profile_path, character }) => {
-        return <li key={id}>
-            <img src={`${imageUrl}${profile_path}`} alt={name} />
-            <p>{name}</p>
-            <p>{character}</p>
-        </li>
+        return <Item key={id}>
+            <img src={(profile_path !== null) ? `${imageUrl}${profile_path}` : FakeFace } alt={name} width="240"/>
+            <ItemText>Name:{name}</ItemText>
+            <ItemText>Role:{character}</ItemText>
+        </Item>
     })
-    if (casts !== []) {
+    
         return (
-            <ul>
+            <ListCasts>
                 {markupCasts}
-    </ul>
+    </ListCasts>
   )
-    }
-    else {
-        return
-    }
+   
 }

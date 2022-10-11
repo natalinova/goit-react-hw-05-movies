@@ -1,57 +1,72 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import axios from 'axios';
+import { Outlet, useLocation, useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import Casts from 'components/Casts';
+import { Suspense } from 'react';
+import { Search } from 'api/FetchConst';
+import {Button, TotalMovies, MovieCard, ItemText, ItemTitle} from '../MoviesStyled'
 const imageUrl = 'https://image.tmdb.org/t/p/w500'
 
-const SearchById = async (id) => {
+// const SearchById = async (id) => {
   
-    const resultMovie= await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=575a9af20b08903ff7761ed5bfc17287`)
+//     const resultMovie= await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=575a9af20b08903ff7761ed5bfc17287`)
   
-  console.log(id)
-  console.log(resultMovie)
-    if (resultMovie.length === 0) {
-        return Promise.reject(new Error(` Not any movies with key word ${id}`))
-    }
-        return resultMovie
-}
+//   console.log(id)
+//   console.log(resultMovie)
+//     if (resultMovie.length === 0) {
+//         return Promise.reject(new Error(` Not any movies with key word ${id}`))
+//     }
+//         return resultMovie
+// }
 
 
 export default function MovieDetails() {
     
     const { moviesId } = useParams();
-    const cleanId = moviesId.slice(1);
-    console.log(cleanId)
-    const [movie, setMovie] = useState(null);
+    
+  const [movie, setMovie] = useState(null);
+  const location = useLocation();
     useEffect(() => {
-        const fetchMovie = async (id) => { 
+        const fetchMovie = async (id,typeSearch) => { 
         try {   
-          const searchResult = await SearchById(id);
-            const data = searchResult.data
-            console.log(data)
-        setMovie(data)
-          
-          // return Promise.resolve(searchResult.data.results)      
+          const searchResult = await Search(id, typeSearch);
+          const data = searchResult.data;
+          setMovie(data)    
         }
-        catch (error){
-        
-          // setError(`Not any images with key word ${query}` )          
+        catch (error){        
   }
         }
-      fetchMovie(cleanId)
+      fetchMovie(moviesId, "")
       // eslint-disable-next-line
     }, [])
     
   if (!movie) {
       return
   };
+  const BackLink = location.state?.from ?? "/home"
   return (
-      <>
-          <h2>{movie.title}</h2>;
-      <img src={`${imageUrl}${movie.poster_path}`} alt={movie.title} />
-      <Link to="casts" > Link to Casts <Casts id={ cleanId} /></Link>
+    <TotalMovies>
+      <Link to={BackLink}> <Button>Back to preview page</Button></Link>
+      <MovieCard>
+        <ItemTitle>{movie.title}</ItemTitle>
+        <img src={`${imageUrl}${movie.poster_path}`} alt={movie.title} />
+        <ItemText>{ movie.overview}</ItemText>
+      <ul>
+        <li>
+     <Link to="casts" ><Button>Link to Casts</Button>  </Link>
+        </li>
+        <li>
+     <Link to="reviews" > <Button>Link to Review</Button> </Link>
+        </li>
+      </ul>
+      </MovieCard>
+        
+     
+      <Suspense fallback=". ..Loading">
+        <Outlet/>
+      </Suspense>
       
-      </>
+     
+    </TotalMovies>
+    
   )
 }

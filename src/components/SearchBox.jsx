@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
+import {Input, TotalMovies} from "../MoviesStyled"
 
-export const SearchBox = ({onChange}) => {
+export const SearchBox = ({value, onChange}) => {
 return (
-    <div>
-    <input
+    <TotalMovies>
+    <Input
       type='text'
+      value = {value}
+      placeholder='Insert your query'
       onChange={e => onChange(e.target.value)}
       />
-      
-    </div>
+    </TotalMovies>
   )
 }
   
