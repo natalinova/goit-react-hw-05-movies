@@ -17,9 +17,9 @@ export default function Reviews() {
       const searchResult = await Search(id, typeSearch);
       console.log(searchResult)
       const data = searchResult.data.results;
-      console.log(data)
-      setReview(data)
-      console.log(review)
+      console.log(data);
+      setReview(data);
+      console.log(review);
       if (data.length === 0) {
         setError(`Not any reviews for this movie`)
       }
