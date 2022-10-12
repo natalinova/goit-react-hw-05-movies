@@ -1,7 +1,7 @@
 import MovieItem from 'components/MovieItem';
 import React, { useEffect, useState } from 'react'
 import { Button, TotalMovies } from '../MoviesStyled'
-import { SearchHome } from '../api/FetchConst';
+import { Search} from '../api/FetchConst';
 import Error from 'components/Error';
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
 const fetchHomepage = async (page) => { 
         try {   
-          const searchResult = await SearchHome(page);
+          const searchResult = await Search("/trending", "", "/week", `&page=${page}`);
         const data = searchResult.data.results
         setResult([...result, ...data])
         }

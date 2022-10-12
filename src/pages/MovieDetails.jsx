@@ -26,9 +26,9 @@ export default function MovieDetails() {
   const [movie, setMovie] = useState(null);
   const location = useLocation();
     useEffect(() => {
-        const fetchMovie = async (id,typeSearch) => { 
+        const fetchMovie = async (id) => { 
         try {   
-          const searchResult = await Search(id, typeSearch);
+          const searchResult = await Search("",`/${id}`, "","");
           const data = searchResult.data;
           setMovie(data)    
         }

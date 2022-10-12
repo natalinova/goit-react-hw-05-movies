@@ -12,7 +12,7 @@ export default function Reviews() {
   const [error, setError] = useState(null)
   const fetchReviews = async (id, typeSearch) => {
     try {
-      const searchResult = await Search(id, typeSearch);
+      const searchResult = await Search("", `/${id}`, typeSearch, "");
       const data = searchResult.data.results;
       if (data.length === 0) {
         setError(`Not any reviews for this movie`)

@@ -11,7 +11,7 @@ export default function Casts() {
     const [casts, setCasts] = useState([]);
     const fetchCasts = async (id, typeSearch) => { 
         try {   
-            const searchResult = await Search(id, typeSearch);
+            const searchResult = await Search("", `/${id}`, typeSearch, "");
             const data = searchResult.data.cast;
             setCasts(data);  
         }

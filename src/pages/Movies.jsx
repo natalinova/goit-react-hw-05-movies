@@ -3,7 +3,7 @@ import React, {Suspense, useEffect, useState} from 'react'
 import { Outlet, useSearchParams } from 'react-router-dom';
 import Error from '../components/Error'
 import MovieItem from 'components/MovieItem';
-import { SearchMovie } from '../api/FetchConst'
+import { Search } from '../api/FetchConst'
 
 const Movies = () => {
   const [search, setSearch] = useState([]);
@@ -16,7 +16,7 @@ const Movies = () => {
   const searchQuery = searchQueryFull.toLowerCase();
   const fetchMovie = async (query) => {
     try {
-      const searchResult = await SearchMovie(query);
+      const searchResult = await Search("/search", "", "", `&query=${query}`);
       const data = searchResult.data.results
       setSearch(data)
       if (data.length === 0) {
