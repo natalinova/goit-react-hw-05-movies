@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Search } from 'api/FetchConst';
 import { useParams } from 'react-router-dom';
-// import ErrorImage from "../api/error.jpg"
 import FakeFace from "../api/fake_face.jpeg"
 import {Item, ItemText, ListCasts} from "../MoviesStyled"
 
 const imageUrl = 'https://image.tmdb.org/t/p/w500'
 
 export default function Casts() {
-    const {moviesId} = useParams();
-    
-    console.log(moviesId)
+    const { moviesId } = useParams();
     const [casts, setCasts] = useState([]);
     const fetchCasts = async (id, typeSearch) => { 
         try {   
             const searchResult = await Search(id, typeSearch);
-            const data = searchResult.data.cast
-            setCasts(data)  
+            const data = searchResult.data.cast;
+            setCasts(data);  
         }
         catch (error){         
         }
