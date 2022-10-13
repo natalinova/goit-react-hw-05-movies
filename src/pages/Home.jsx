@@ -24,14 +24,19 @@ const fetchHomepage = async (page) => {
   },[page])
 
   const LoadMore = () => {  
-    setPage( page + 1)
+    setPage( page => page + 1)
   }
   
   return (
     <TotalMovies>
-      {(error === null) ? <MovieItem data={result} /> : <Error message={ error} />}
+      {(error === null) ? (
+        <>
+          <MovieItem data={result} />
+          <Button onClick={LoadMore}> Load more</Button>
+        </> 
+      ) : <Error message={error} />}
      
-      <Button onClick={LoadMore}> Load more</Button>
+      
       </TotalMovies>
       
 

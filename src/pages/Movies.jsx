@@ -4,21 +4,25 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import Error from '../components/Error'
 import MovieItem from 'components/MovieItem';
 import { Search } from '../api/FetchConst'
+import {Form} from "../MoviesStyled"
 
 const Movies = () => {
   const [search, setSearch] = useState([]);
   const [error, setError] = useState(null)
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams('');
+  const [query, setQuery] = useState('')
   const filterSearch = value => {
-    setSearchParams(value !== "" ? { filter: value } : {})
+    setSearchParams(value !== "" ? { search: value } : {})
   }
-  const searchQueryFull = searchParams.get('filter') ?? "";
+  const searchQueryFull = searchParams.get('search') ?? "";
   const searchQuery = searchQueryFull.toLowerCase();
   const fetchMovie = async (query) => {
     try {
+
       const searchResult = await Search("/search", "", "", `&query=${query}`);
-      const data = searchResult.data.results
+      const data = searchResult.data.results;
       setSearch(data)
+      localStorage.setItem('result', JSON.stringify(data))
       if (data.length === 0) {
         setError(`Not any movies for your query`)
       }
@@ -29,20 +33,43 @@ const Movies = () => {
     catch (error) {    
     }
   }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(searchQuery)
+    setQuery(searchQueryFull)
+  }
+
   useEffect(() => {
-    if (searchQuery === "") { return };
-    fetchMovie(searchQuery)
+    const movieFromStorage = localStorage.getItem('result');
+      if (movieFromStorage !== null) {
+        console.log(movieFromStorage)
+        setSearch(JSON.parse(movieFromStorage));
+        console.log(search);
+      }
+    if (query === "") {
+    return
+    }
+    fetchMovie(query)
+     // eslint-disable-next-line 
+  }, [query])
+  useEffect(() => {
+      const movieFromStorage = localStorage.getItem('result');
+    if (movieFromStorage !== null) { 
+      localStorage.removeItem('result')
+    }
     // eslint-disable-next-line
-  }, [searchQuery]);
+  }, []);
+
   return (
     <>
-      <SearchBox
+      <Form onSubmit={handleSubmit}>
+        <SearchBox
         value={searchQueryFull}
         onChange={filterSearch}
       />
-      {(error === null) ? ((searchQuery !== "") ? <MovieItem data={search} /> : <div></div>) : <Error message={ error} />}
+    </Form>
       
-      
+      {(error === null) ? ((search !== "") ? <MovieItem data={search} /> : <div></div>) : <Error message={ error} />}
       <Suspense fallback={"Loading..."}> 
                 <Outlet/>
             </Suspense>

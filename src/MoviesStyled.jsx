@@ -30,7 +30,12 @@ export const TotalMovies = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-
+`
+export const Form = styled.form`
+width: 100vw;
+display: flex;
+justify-content: center;
+align-items: center;
 `
 export const LinkItem = styled(Link)`
 text-decoration: none;

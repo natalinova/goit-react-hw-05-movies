@@ -6,17 +6,6 @@ import { Search } from 'api/FetchConst';
 import {Button, TotalMovies, MovieCard, ItemText, ItemTitle} from '../MoviesStyled'
 const imageUrl = 'https://image.tmdb.org/t/p/w500'
 
-// const SearchById = async (id) => {
-  
-//     const resultMovie= await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=575a9af20b08903ff7761ed5bfc17287`)
-  
-//   console.log(id)
-//   console.log(resultMovie)
-//     if (resultMovie.length === 0) {
-//         return Promise.reject(new Error(` Not any movies with key word ${id}`))
-//     }
-//         return resultMovie
-// }
 
 
 export default function MovieDetails() {
@@ -59,13 +48,9 @@ export default function MovieDetails() {
         </li>
       </ul>
       </MovieCard>
-        
-     
       <Suspense fallback=". ..Loading">
         <Outlet/>
       </Suspense>
-      
-     
     </TotalMovies>
     
   )

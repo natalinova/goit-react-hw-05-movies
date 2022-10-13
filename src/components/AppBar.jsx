@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, NavItem } from 'MoviesStyled';
-import Cinema from "../api/cinema1.jpeg"
+import Cinema from "../images/cinema1.jpeg"
 
 export const AppBar = () => {
   return (

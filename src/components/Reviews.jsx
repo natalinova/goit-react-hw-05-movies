@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Search } from 'api/FetchConst';
 import { useParams } from 'react-router-dom';
 import Error from "./Error"
-import FakeFace from "../api/fake_face.jpeg"
+import FakeFace from "../images/fake_face.jpeg"
 import { ItemText,ItemReviews } from 'MoviesStyled';
 const imageUrl = 'https://image.tmdb.org/t/p/w500'
 

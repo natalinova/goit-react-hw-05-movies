@@ -1,6 +1,6 @@
 import { ItemError, ErrorMessage } from 'MoviesStyled'
 import React from 'react'
-import ErrorImage from "../api/error.jpg"
+import ErrorImage from "../images/error.jpg"
 
 export default function Error({message}) {
 
