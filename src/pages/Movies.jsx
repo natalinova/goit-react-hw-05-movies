@@ -10,11 +10,15 @@ const Movies = () => {
   const [search, setSearch] = useState([]);
   const [error, setError] = useState(null)
   const [searchParams, setSearchParams] = useSearchParams('');
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(() => {
+    const resultQuery = searchParams.get('search') ?? ""
+    return resultQuery ? resultQuery : ""
+  })
   const filterSearch = value => {
     setSearchParams(value !== "" ? { search: value } : {})
   }
   const searchQueryFull = searchParams.get('search') ?? "";
+  console.log(searchQueryFull)
   const searchQuery = searchQueryFull.toLowerCase();
   const fetchMovie = async (query) => {
     try {
@@ -22,7 +26,7 @@ const Movies = () => {
       const searchResult = await Search("/search", "", "", `&query=${query}`);
       const data = searchResult.data.results;
       setSearch(data)
-      localStorage.setItem('result', JSON.stringify(data))
+
       if (data.length === 0) {
         setError(`Not any movies for your query`)
       }
@@ -40,25 +44,12 @@ const Movies = () => {
   }
 
   useEffect(() => {
-    const movieFromStorage = localStorage.getItem('result');
-      if (movieFromStorage !== null) {
-        console.log(movieFromStorage)
-        setSearch(JSON.parse(movieFromStorage));
-        console.log(search);
-      }
     if (query === "") {
     return
     }
     fetchMovie(query)
      // eslint-disable-next-line 
   }, [query])
-  useEffect(() => {
-      const movieFromStorage = localStorage.getItem('result');
-    if (movieFromStorage !== null) { 
-      localStorage.removeItem('result')
-    }
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <>
